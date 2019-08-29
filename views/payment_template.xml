@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ipay_form">
+        <input type="hidden" name="data_set" t-att-data-action-url="tx_url" data-remove-me=""/>
+                <input type="hidden" name="live" t-att-value="live"/>
+                <input type="hidden" name="oid" t-att-value="txnid"/>
+                <input type="hidden" name="inv" t-att-value="productinfo"/>
+                <input type="hidden" name="ttl" t-att-value="amount"/>
+                <input type="hidden" name="tel" t-att-value="phone"/>
+                <input type="hidden" name="eml" t-att-value="email"/>
+                <input type="hidden" name="vid" t-att-value="service_provider"/>
+                <input type="hidden" name="curr" t-att-value="currency_code"/>
+                <input type="hidden" name="cbk" t-att-value='surl'/>
+                <input type="hidden" name="cst" t-att-value='cst'/>
+                <input type="hidden" name="crl" t-att-value='crl'/>
+                <input type="hidden" name="hsh" t-att-value='hash'/>
+    </template>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="acquirer_form_ipay" model="ir.ui.view">
+            <field name="name">acquirer.form.paypal</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.acquirer_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//group[@name="acquirer"]' position='after'>
+                    <group attrs="{'invisible': [('provider', '!=', 'ipay')]}">
+                        <field name="_ipay_vendor_id"/>
+                        <field name="_ipay_key"/>
+                        <field name="_ipay_live"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="transaction_form_ipay" model="ir.ui.view">
+            <field name="name">acquirer.transaction.form.ipay</field>
+            <field name="model">payment.transaction</field>
+            <field name="inherit_id" ref="payment.transaction_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='acquirer_reference']" position="after">
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
