@@ -3,6 +3,11 @@
     <template id="ipay_form">
         <input type="hidden" name="data_set" t-att-data-action-url="tx_url" data-remove-me=""/>
                 <input type="hidden" name="live" t-att-value="live"/>
+                <input type="hidden" name="mb" t-att-value="mbank"/>
+                <input type="hidden" name="dc" t-att-value="dcard"/>
+                <input type="hidden" name="cc" t-att-value="ccard"/>
+                <input type="hidden" name="mer" t-att-value="mrahisi"/>
+                <input type="hidden" name="ap" t-att-value="auto"/>
                 <input type="hidden" name="oid" t-att-value="txnid"/>
                 <input type="hidden" name="inv" t-att-value="productinfo"/>
                 <input type="hidden" name="ttl" t-att-value="amount"/>

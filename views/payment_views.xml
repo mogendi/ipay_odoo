@@ -11,6 +11,11 @@
                         <field name="_ipay_vendor_id"/>
                         <field name="_ipay_key"/>
                         <field name="_ipay_live"/>
+                        <field name="_mobile_banking"/>                
+                        <field name="_debit_card"/>
+                        <field name="_credit_card"/>
+                        <field name="_mkopo_rahisi"/>
+                        <field name="_autopay"/>
                     </group>
                 </xpath>
             </field>

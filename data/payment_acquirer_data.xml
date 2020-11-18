@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data noupdate="0">
-
-        <record id="payment_payment_acquirer_ipay" model="payment.acquirer">
-            <field name="name">Ipay</field>
-            <field name="image" type="base64" file="payment_ipayodoo/static/src/img/icon.png"/>
-            <field name="provider">ipay</field>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="view_template_id" ref="ipay_form"/>
-            <field name="environment">test</field>
-            <field name="pre_msg"><![CDATA[
+<odoo noupdate="1">
+    <record id="payment_payment_acquirer_alipay" model="payment.acquirer">
+        <field name="name">Ipay</field>
+        <field name="provider">ipay</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="view_template_id" ref="ipay_form"/>
+        <field name="pre_msg"><![CDATA[
 <p>You will be redirected to the Ipay Gateway after clicking on the payment button.</p>]]></field>
-            <field name="_ipay_live"/>
-            <field name="_ipay_vendor_id">dummy</field>
-            <field name="_ipay_key">dummy</field>
-            <field name="description" type="html">
-                <p>
-                    Payment Acquirer that uses the Ipay Gateway
-                </p>
-                <p>
-                    <i class="fa fa-check"/>Online Payment
-                </p>
-            </field>
-        </record>
-
-    </data>
+        <field name="_ipay_live"/>
+        <field name="_ipay_vendor_id">demo</field>
+        <field name="_ipay_key">demoCHANGED</field>
+        <field name="_mobile_banking"/>
+        <field name="_debit_card"/>
+        <field name="_credit_card"/>
+        <field name="_mkopo_rahisi"/>
+        <field name="_autopay"/>
+        <field name="description" type="html">
+            <p>
+                Payment Acquirer that uses the Ipay Gateway
+            </p>
+            <p>
+                <i class="fa fa-check"/>Online Payment
+            </p>
+        </field>
+    </record>
 </odoo>

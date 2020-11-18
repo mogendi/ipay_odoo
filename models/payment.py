@@ -14,18 +14,22 @@ _logger = logging.getLogger(__name__)
 class PaymentAcquirerIpayOdoo(models.Model):
     _inherit = 'payment.acquirer'
 
-    provider = fields.Selection(selection_add=[('ipay', 'Ipay')])
+    provider = fields.Selection(selection_add=[('ipay', 'Ipay')], ondelete={'ipay': 'set default'})
     _ipay_key = fields.Char('Ipay Key', groups='base.group_user')
     _ipay_vendor_id = fields.Char('Vendor ID', groups='base.group_user')
     _ipay_live = fields.Boolean('Live', groups='base.group_user')
+    _mobile_banking = fields.Boolean("mbank", groups='base.group_user')
+    _debit_card = fields.Boolean("debitcard", groups='base.group_user')
+    _credit_card = fields.Boolean("creditcard", groups='base.group_user')
+    _mkopo_rahisi = fields.Boolean("mkoporahisi", groups='base.group_user')
+    _autopay = fields.Boolean("autopay", groups='base.group_user')
 
     def _get_ipay_urls(self, environment):
-        if environment == 'prod':
+        if environment == "prod":
             return 'https://payments.ipayafrica.com/v3/ke'
         else:
             return 'https://payments.ipayafrica.com/v3/ke'
 
-    @api.multi
     def ipay_form_generate_values(self, values):
         self.ensure_one()
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -34,13 +38,44 @@ class PaymentAcquirerIpayOdoo(models.Model):
             lv = 1
         else: 
             lv = 0
+        if self._autopay:
+            ap = 1
+        else: 
+            ap = 0
+        if self._mkopo_rahisi:
+            mer = 1
+        else:
+            mer=0
+        if self._credit_card:
+            cc=1
+        else:
+            cc=0
+        if self._debit_card:
+            dc = 1
+        else:
+            dc=0
+        if self._mobile_banking:
+            mb = 1
+        else: 
+            mb = 0
+
+        ph = values.get('partner_phone')
+        if ph == "":
+            phone = values.get('billing_partner_phone')
+        else:
+            phone = ph
         ipay_values = dict(values,
                                 live=str(lv),
+                                mbank=str(mb),
+                                dcard=str(dc),
+                                ccard=str(cc),
+                                mrahisi=str(mer),
+                                auto=str(ap),
                                 txnid=values['reference'],
-                                amount=values['amount'],
                                 productinfo=values['reference'],
+                                amount=values['amount'],
+                                phone=phone,
                                 email=values.get('partner_email'),
-                                phone=values.get('partner_phone'),
                                 service_provider=self._ipay_vendor_id,
                                 currency_code=values['currency'].name or '',
                                 surl=urls.url_join(base_url, '/payment/ipay/ipn'),
@@ -48,7 +83,7 @@ class PaymentAcquirerIpayOdoo(models.Model):
                                 crl='0',
                                 )
 
-        text = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}".format( ipay_values['live'], 
+        text = "{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}".format( ipay_values['live'],
                                                     ipay_values['txnid'],
                                                     ipay_values['productinfo'],
                                                     ipay_values['amount'],
@@ -66,16 +101,15 @@ class PaymentAcquirerIpayOdoo(models.Model):
         })
         return ipay_values
 
-    @api.multi
     def ipay_get_form_action_url(self):
         self.ensure_one()
-        return self._get_ipay_urls(self.environment)
+        environment = "prod" if self._ipay_live else "test"
+        return self._get_ipay_urls(environment)
 
 
 class PaymentTransactionIpayOdoo(models.Model):
     _inherit = 'payment.transaction'
 
-    @api.multi
     def _ipay_form_validate(self,data):
         val1 = data.get('id') 
         val2 = data.get('ivm') 
